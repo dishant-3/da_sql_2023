@@ -3,20 +3,22 @@ use  sample1;
 --CREATE TABLE student(stu_id INT,fn varchar(30),ln varchar(30),city varchar(30),dob date,gender varchar(20));
 --CREATE TABLE course(stu_id INT,course_name varchar(30));
 
---SELECT * FROM student;
---SELECT * FROM course;
-DECLARE @current_date date = '2020-01-01 13:05:01';
+SELECT * FROM student;
+SELECT * FROM course;
 
---SELECT DISTINCT s.stu_id,s.fn,s.ln,s.city,DATEDIFF(year,s.dob,@current_date) AS age
---FROM student as s
---LEFT JOIN 
---course as c
---ON s.stu_id = c.stu_id
---WHERE c.course_name IN ('PHYSICS','MATHS')
---ORDER BY s.stu_id;
+DECLARE @current_date AS date = '2020-01-01 13:05:01';
 
---SELECT stu_id,fn,ln,year(@current_date)- year(student.dob)AS age FROM student;
+SELECT DISTINCT s.stu_id,s.fn,s.ln,s.city,DATEDIFF(year,s.dob,@current_date) AS age
+FROM student as s
+LEFT JOIN 
+course as c
+ON s.stu_id = c.stu_id
+WHERE c.course_name IN ('PHYSICS','MATHS')
+ORDER BY s.stu_id;
 
+SELECT stu_id,fn,ln,year(@current_date)- year(student.dob)AS age FROM student;
+
+DECLARE @current_date AS date = '2020-01-01 13:05:01';
 -- We can use year() function directly to fetch the  
 SELECT DATEPART(year,@current_date) AS year_val;
 SELECT DATEPART(month,@current_date) AS month_val;
@@ -28,11 +30,16 @@ SELECT CAST(5.3333 AS DEC(3,1)) AS cast_value
 SELECT DATEPART(dayofyear,getdate()) AS pres_day
 SELECT DATEPART(week,getdate()) AS pres_week
 SELECT DATEPART(weekday,getdate()) AS week_day
+SELECT DATEPART(day,CAST('2023-03-30' AS DATE)) AS day_part_in_month
 -- In weekday 1 refers to Sunday as first day of the week
 
 -- getdate() function is used to get the current datetime value
 -- ROUND(decimal_value,number,operation) function is used to round or truncate the decimal_value
+
 --'''https://www.geeksforgeeks.org/round-function-in-sql-server/ ''' 
+
+-- By default it rounds off
+--For truncate pass 1 as third parameter
 
 SELECT ROUND(23.45667,3) AS rounded_value
 SELECT ROUND(23.45667,3,1) AS truncated_value
@@ -45,6 +52,8 @@ SELECT DATEADD(day,2,'2022-01-23') AS added_date
 --CREATE TABLE customer_orders
 --(order_id INT,cutomer_id INT,order_date DATE,ship_date DATE);
 SELECT * FROM customer_orders;
+
+-- To calculate days to ship and business days to ship
 
 SELECT * ,DATEDIFF(day,order_date,ship_date) AS days_to_ship,
 DATEDIFF(week,order_date,ship_date) AS weeks_between,
